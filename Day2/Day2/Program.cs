@@ -5,11 +5,11 @@ using System.Linq;
 namespace Day2 {
 	internal static class Program {
 		private static void Main() {
-			Console.WriteLine("Part 1: " + Part1());
-			Console.WriteLine("Part 2: " + Part2());
+			Console.WriteLine($"Part 1: {Part1()}");
+			Console.WriteLine($"Part 2: {Part2()}");
 		}
 
-		private static object Part1() {
+		private static string Part1() {
 			var plays = File.ReadAllText("input.txt").Trim().Split(Environment.NewLine).Select(t => (t[0] - 'A', t[2] - 'X')).ToArray();
 			var pointsForFigurePlayed = plays.Sum(t => t.Item2 + 1);
 			var pointsForVictories = plays.Count(t => t.Item2 == (t.Item1 + 1) % 3) * 6;
@@ -18,7 +18,7 @@ namespace Day2 {
 			return $"{points:0}: {pointsForFigurePlayed} (figures), {pointsForVictories} (victories), {pointsForDraws} (draws)";
 		}
 
-		private static object Part2() {
+		private static string Part2() {
 			var plays = File.ReadAllText("input.txt").Trim().Split(Environment.NewLine).Select(t => (t[0] - 'A', t[2] - 'X' + 2)).ToArray();
 			var pointsForFigurePlayed = plays.Sum(t => (t.Item1 + t.Item2) % 3 + 1);
 			var pointsForVictories = plays.Count(t => t.Item2 == 4) * 6;

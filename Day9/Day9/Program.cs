@@ -12,7 +12,7 @@ namespace Day9
         {
             Console.WriteLine($"Part 1: {Part(2)}");
             Console.WriteLine("\n-----------------\n");
-            Console.WriteLine($"Part 2: {Part2(10)}");
+            Console.WriteLine($"Part 2: {Part(10)}");
         }
 
         private static string Part(int knotCount)
@@ -20,16 +20,6 @@ namespace Day9
             var knots = Enumerable.Repeat(Vector2Int.zero, knotCount).ToArray();
             var visited = new HashSet<Vector2Int> {knots.Last()};
             foreach (var move in ReadInput()) visited.Add(DoMoveAndGetLast(ref knots, move));
-            return $"{visited.Count}{Environment.NewLine}{string.Join(" ", visited.Take(30))}";
-        }
-
-
-        private static string Part2()
-        {
-            var allMoves = ReadInput();
-            var knots = Enumerable.Repeat(Vector2Int.zero, 10).ToArray();
-            var visited = new HashSet<Vector2Int> {knots.Last()};
-            foreach (var move in allMoves) visited.Add(DoMoveAndGetLast(ref knots, move));
             return $"{visited.Count}{Environment.NewLine}{string.Join(" ", visited.Take(30))}";
         }
 

@@ -40,7 +40,7 @@ namespace Day12 {
                     open.Remove(openedNode);
                     if (weights.ContainsKey(openedNode)) weights.Remove(openedNode);
                     weights.Add(openedNode, weights[node] + 1);
-                    open.Insert(open.TakeWhile(t => weights[t] < weights[openedNode]).Count(), openedNode);
+                    open.Insert(open.Count(t => weights[t] < weights[openedNode]), openedNode);
                 }
             }
 

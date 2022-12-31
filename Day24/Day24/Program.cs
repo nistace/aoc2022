@@ -18,24 +18,35 @@ namespace Day24 {
 
         private static string Part1() {
             var grid = ReadInput();
-            var score = FindShortestPath(grid);
+            var score = FindShortestPath(grid, new[] {grid.exit});
+            return $"{score}";
+        }
+
+        private static string Part2() {
+            var grid = ReadInput();
+            var score = FindShortestPath(grid, new[] {grid.exit, grid.entry, grid.exit});
             return $"{score}";
         }
 
 
-        private static int FindShortestPath(Grid grid) {
-            var solutions = new List<HashSet<Vector2Int>> {new HashSet<Vector2Int> {grid.entry}};
+        private static int FindShortestPath(Grid grid, IEnumerable<Vector2Int> goals) {
+            var previousSolutions = new HashSet<Vector2Int> {grid.entry};
+            var currentSolutions = previousSolutions;
 
-            for (var timeElapsed = 1;; timeElapsed++) {
-                grid.SimulateBlizzard();
-                solutions.Add(new HashSet<Vector2Int>(solutions[timeElapsed - 1].SelectMany(t => directions.Select(u => t + u)).Where(grid.IsEmpty)));
-                if (solutions[timeElapsed].Contains(grid.exit)) return timeElapsed;
+            var timeElapsed = 0;
+            foreach (var goal in goals) {
+                while (!currentSolutions.Contains(goal)) {
+                    timeElapsed++;
+                    grid.SimulateBlizzard();
+                    currentSolutions = new HashSet<Vector2Int>(previousSolutions.SelectMany(t => directions.Select(u => t + u)).Where(grid.IsEmpty));
+                    previousSolutions = currentSolutions;
+                }
+
+                previousSolutions = new HashSet<Vector2Int> {goal};
+                currentSolutions = previousSolutions;
             }
-        }
 
-
-        private static string Part2() {
-            return "";
+            return timeElapsed;
         }
 
 
